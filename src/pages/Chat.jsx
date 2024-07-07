@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useAuthContext } from "../context/AuthContext.jsx";
+import { useSocketContext } from "../context/SocketContext.jsx";
 
 export default function Chat() {
     const { id } = useParams();
@@ -11,6 +12,7 @@ export default function Chat() {
     const [loading, setLoading] = useState(true);
     const [sending, setSending] = useState(false);
     const { userData } = useAuthContext();
+    const { socket } = useSocketContext();
 
     useEffect(() => {
         const fetchMessages = async () => {
@@ -24,7 +26,6 @@ export default function Chat() {
                     }
                 );
                 setMessages(response.data.messages);
-                console.log(response.data.messages);
                 setLoading(false);
             } catch (error) {
                 toast.error(
@@ -36,6 +37,19 @@ export default function Chat() {
 
         fetchMessages();
     }, [id, userData.token]);
+
+    // listen messages
+    useEffect(() => {
+        if (!socket) return;
+
+        socket.on("newMessage", (newMessage) => {
+            setMessages((prevMessages) => [...prevMessages, newMessage]);
+        });
+
+        return () => {
+            socket.off("newMessage");
+        };
+    }, [socket]);
 
     const handleSendMessage = async (event) => {
         event.preventDefault();

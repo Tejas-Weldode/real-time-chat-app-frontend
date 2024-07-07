@@ -7,6 +7,7 @@ import { FormContextProvider } from "./context/FormContext.jsx";
 import { AuthContextProvider } from "./context/AuthContext.jsx";
 import { ForgotPasswordContextProvider } from "./context/ForgotPasswordContext.jsx";
 import { Toaster } from "react-hot-toast";
+import { SocketContextProvider } from "./context/SocketContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
@@ -14,8 +15,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <FormContextProvider>
                 <ForgotPasswordContextProvider>
                     <BrowserRouter>
-                        <Toaster />
-                        <App />
+                        <SocketContextProvider>
+                            <Toaster />
+                            <App />
+                        </SocketContextProvider>
                     </BrowserRouter>
                 </ForgotPasswordContextProvider>
             </FormContextProvider>
