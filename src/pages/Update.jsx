@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useAuthContext } from "../context/AuthContext.jsx";
 import ChangeProfileInfo from "../components/ChangeProfileInfo.jsx";
 import ChangeEmail from "../components/ChangeEmail.jsx";
 import ChangePassword from "../components/ChangePassword.jsx";
@@ -28,16 +27,39 @@ export default function Update() {
     return (
         <div>
             {/* step 2 */}
-            <h1>Update</h1>
-            <button onClick={() => setComponentKey("profile")}>
-                Change Profile
-            </button>
-            <button onClick={() => setComponentKey("email")}>
-                Change Email
-            </button>
-            <button onClick={() => setComponentKey("password")}>
-                Change Password
-            </button>
+            <h1>Update Info</h1>
+            <div className="flex overflow-x-scroll">
+                <button
+                    className={`${
+                        componentKey === "profile"
+                            ? "my-option-button-active"
+                            : ""
+                    } my-option-button`}
+                    onClick={() => setComponentKey("profile")}
+                >
+                    Change Profile
+                </button>
+                <button
+                    className={`${
+                        componentKey === "email"
+                            ? "my-option-button-active"
+                            : ""
+                    } my-option-button`}
+                    onClick={() => setComponentKey("email")}
+                >
+                    Change Email
+                </button>
+                <button
+                    className={`${
+                        componentKey === "password"
+                            ? "my-option-button-active"
+                            : ""
+                    } my-option-button`}
+                    onClick={() => setComponentKey("password")}
+                >
+                    Change Password
+                </button>
+            </div>
             {/* step 3 */}
             {changeComponent()}
         </div>

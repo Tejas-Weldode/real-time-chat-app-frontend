@@ -9,18 +9,13 @@ export default function PersonCard({ fullName, username, profilePic, _id }) {
     const [loading, setLoading] = useState(false);
     const { userData } = useAuthContext();
     const navigate = useNavigate();
-    useEffect(() => {
-        console.log({ fullName, username, profilePic, _id });
-    }, []);
 
     const openFunc = async () => {
         try {
             setLoading(true);
-            const res = await axios.get(
-                `http://localhost:3000/chat/open-chat/${_id}`,
-                { headers: { Authorization: `Bearer ${userData.token}` } }
-            );
-            console.log(res.data.chat);
+            await axios.get(`http://localhost:3000/chat/open-chat/${_id}`, {
+                headers: { Authorization: `Bearer ${userData.token}` },
+            });
             navigate(`/chat/${_id}`);
             setLoading(false);
         } catch (error) {
@@ -32,10 +27,26 @@ export default function PersonCard({ fullName, username, profilePic, _id }) {
     if (loading) return <h3>Loading...</h3>;
     return (
         <>
-            <div onClick={openFunc}>
-                <h3>{fullName}</h3>
-                <p>{username}</p>
-                <p>{_id}</p>
+            <div
+                onClick={openFunc}
+                className="bg-zinc-200 p-4 flex items-center space-x-4"
+            >
+                {/* image (profilePic) div below --- start*/}
+                <span className="overflow-hidden size-10 rounded-full">
+                    {profilePic == null || profilePic == "" ? (
+                        ""
+                    ) : (
+                        <img
+                            className="w-full h-full object-cover"
+                            src={profilePic}
+                        />
+                    )}
+                </span>
+                {/* image (profilePic) div below --- end*/}
+                <div>
+                    <p className="font-semibold">{fullName}</p>
+                    <p className="italic">{username}</p>
+                </div>
             </div>
         </>
     );

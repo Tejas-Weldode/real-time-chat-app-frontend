@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -11,12 +11,27 @@ export default function Chat() {
     const [newMessage, setNewMessage] = useState("");
     const [loading, setLoading] = useState(true);
     const [sending, setSending] = useState(false);
+    const [otherUser, setOtherUser] = useState(null);
     const { userData } = useAuthContext();
     const { socket } = useSocketContext();
+    const messagesEndRef = useRef(null);
+
+    function formatTimestamp(timestamp) {
+        const date = new Date(timestamp);
+        const options = {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+        };
+        return `${date.toLocaleTimeString(undefined, options)}`;
+    }
 
     useEffect(() => {
         const fetchMessages = async () => {
             try {
+                setLoading(true);
                 const response = await axios.get(
                     `http://localhost:3000/message/get/${id}`,
                     {
@@ -35,10 +50,27 @@ export default function Chat() {
             }
         };
 
+        const fetchOtherUser = async () => {
+            try {
+                setLoading(true);
+                const res = await axios.get(
+                    `http://localhost:3000/user/info/${id}`
+                );
+                setOtherUser(res.data.user);
+                setLoading(false);
+            } catch (error) {
+                toast.error(
+                    error.response?.data?.error || "Error fetching messages"
+                );
+                setLoading(false);
+            }
+        };
+
         fetchMessages();
+        fetchOtherUser();
     }, [id, userData.token]);
 
-    // listen messages
+    // listening messages
     useEffect(() => {
         if (!socket) return;
 
@@ -50,6 +82,12 @@ export default function Chat() {
             socket.off("newMessage");
         };
     }, [socket]);
+
+    useEffect(() => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+    }, [messages]);
 
     const handleSendMessage = async (event) => {
         event.preventDefault();
@@ -80,31 +118,92 @@ export default function Chat() {
     if (loading) return <p>Loading...</p>;
 
     return (
-        <div>
-            <h1>Chat with {id}</h1>
-            <div>
+        <div className="p-4 bg-zinc-100 mt-8 rounded-lg">
+            <div className="flex items-center">
+                {/* image (profilePic) div below --- start*/}
+                <div className="overflow-hidden size-10 rounded-full">
+                    {otherUser.profilePic == null ||
+                    otherUser.profilePic == "" ? (
+                        ""
+                    ) : (
+                        <img
+                            className="w-full h-full object-cover"
+                            src={otherUser.profilePic}
+                        />
+                    )}
+                </div>
+                {/* image (profilePic) div below --- end*/}
+                <p className="font-semibold text-2xl mx-2">
+                    {otherUser.fullName}
+                </p>
+                <p className="font-light italic mx-2">({otherUser.username})</p>
+            </div>
+            <div className="overflow-y-scroll max-h-[50vh]">
                 {messages.map((message, index) => (
-                    <div key={index}>
-                        <p>
-                            <strong>
-                                {message.senderId === id ? "Other" : "You"}:
-                            </strong>{" "}
-                            {message.text}
-                        </p>
+                    <div
+                        key={index}
+                        className={`flex flex-col w-full ${
+                            message.senderId === id
+                                ? "items-start"
+                                : "items-end"
+                        }`}
+                    >
+                        <div
+                            className={`w-8 h-8 rounded-2xl flex overflow-hidden ${
+                                message.senderId === id
+                                    ? "rounded-bl-none "
+                                    : "rounded-br-none right-0"
+                            } `}
+                        >
+                            {/* image (profilePic) div below --- start*/}
+                            {
+                                <img
+                                    className="w-full h-full object-cover"
+                                    src={
+                                        message.senderId === id
+                                            ? otherUser.profilePic
+                                            : userData.profilePic
+                                    }
+                                />
+                            }
+
+                            {/* image (profilePic) div below --- end*/}
+                        </div>
+                        <div
+                            className={`p-4 mb-2 rounded-2xl w-fit ${
+                                message.senderId === id
+                                    ? "bg-red-200 rounded-tl-none "
+                                    : "bg-blue-200 rounded-tr-none right-0"
+                            } `}
+                        >
+                            <p className="font-medium">{message.text}</p>
+                            <p className="text-xs font-thin font-mono">
+                                {formatTimestamp(message.timestamp)}
+                            </p>
+                        </div>
                     </div>
                 ))}
+                <div ref={messagesEndRef} />
             </div>
-            <form onSubmit={handleSendMessage}>
-                <input
-                    type="text"
-                    value={newMessage}
-                    onChange={(e) => setNewMessage(e.target.value)}
-                    placeholder="Type your message"
-                />
+            <form onSubmit={handleSendMessage} className="mt-4">
+                <div className="w-full">
+                    <input
+                        type="text"
+                        value={newMessage}
+                        onChange={(e) => setNewMessage(e.target.value)}
+                        placeholder="Type your message"
+                    />
+                </div>
                 {sending ? (
-                    <button disabled>Sending</button>
+                    <button disabled className="flex justify-end w-full">
+                        Sending
+                    </button>
                 ) : (
-                    <button type="submit">Send</button>
+                    <button type="submit" className="flex justify-end w-full">
+                        <span className="material-symbols-outlined text-4xl font-thin">
+                            send
+                        </span>
+                    </button>
                 )}
             </form>
         </div>

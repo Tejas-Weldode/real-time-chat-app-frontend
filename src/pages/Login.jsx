@@ -85,9 +85,9 @@ export default function Login() {
                 </label>
                 <br />
                 {loading ? (
-                    <button disabled>Loading...</button>
+                    <button className="my-submit-button" disabled>Loading...</button>
                 ) : (
-                    <button type="submit">Login</button>
+                    <button className="my-submit-button" type="submit">Login</button>
                 )}
             </form>
             <Link to="/forgot-password">Forgot password?</Link>

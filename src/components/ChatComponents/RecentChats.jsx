@@ -4,8 +4,6 @@ import toast from "react-hot-toast";
 import ContactCard from "./ContactCard.jsx";
 import { useAuthContext } from "../../context/AuthContext.jsx";
 
-
-
 export default function RecentChats() {
     const [loading, setLoading] = useState(false);
     const [chats, setChats] = useState([]);
@@ -23,7 +21,6 @@ export default function RecentChats() {
                         },
                     }
                 );
-                console.log(response.data.recentChats);
                 setChats(response.data.recentChats);
                 setLoading(false);
             } catch (error) {
@@ -38,7 +35,6 @@ export default function RecentChats() {
     else
         return (
             <>
-                <h2>RecentChats</h2>
                 <ul>
                     {chats.map((chat) => (
                         <li key={chat.id}>
@@ -47,6 +43,8 @@ export default function RecentChats() {
                                 id={chat.id}
                                 saved={chat.saved}
                                 unread={chat.unread}
+                                profilePic={chat.profilePic}
+                                username={chat.username}
                             />
                             {/* here the chat.id is of the user not the chat */}
                         </li>

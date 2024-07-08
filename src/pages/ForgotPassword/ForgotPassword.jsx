@@ -38,7 +38,6 @@ export default function ForgotPassword() {
                 "http://localhost:3000/user/forgot-password",
                 { email }
             );
-            console.log(res);
             toast.success(res.data.message);
             navigate("/set-new-password");
         } catch (error) {

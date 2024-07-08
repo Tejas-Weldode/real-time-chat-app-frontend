@@ -18,9 +18,23 @@ export default function ListOfChats() {
     };
     return (
         <>
-            <h1>List of Chats</h1>
-            <button onClick={() => setComponentKey("recent")}>Recent</button>
-            <button onClick={() => setComponentKey("saved")}>Saved</button>
+            <h1>Chats</h1>
+            <button
+                className={`${
+                    componentKey === "recent" ? "my-option-button-active" : ""
+                } my-option-button`}
+                onClick={() => setComponentKey("recent")}
+            >
+                Recent
+            </button>
+            <button
+                className={`${
+                    componentKey === "saved" ? "my-option-button-active" : ""
+                } my-option-button`}
+                onClick={() => setComponentKey("saved")}
+            >
+                Saved
+            </button>
             {changeComponent()}
         </>
     );

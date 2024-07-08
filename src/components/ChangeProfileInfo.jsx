@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import { useAuthContext } from "../context/AuthContext.jsx";
 import axios from "axios";
 import toast from "react-hot-toast";
+import validateUsername from "../utils/validateUsername.js";
+import validatePictureSize from "../utils/validatePictureSize.js";
 
 export default function ChangeProfileInfo() {
     const [loading, setLoading] = useState(false);
@@ -69,7 +71,8 @@ export default function ChangeProfileInfo() {
             localStorage.setItem("userData", JSON.stringify(res.data.userData));
             setUserData(res.data.userData);
         } catch (error) {
-            toast.error(error.response.data.error);
+            console.log(error);
+            toast.error(error.response?.data?.error);
         }
         setLoading(false);
     };
@@ -87,7 +90,6 @@ export default function ChangeProfileInfo() {
 
     return (
         <div>
-            <h1>ChangeProfileInfo</h1>
             <form onSubmit={handleSubmit}>
                 <label>
                     Full Name:
@@ -98,41 +100,40 @@ export default function ChangeProfileInfo() {
                         onChange={handleInputChange}
                     />
                 </label>
-                <br />
-                <label>
-                    Gender:
-                    <label>
+                <label>Gender:</label>
+                <div className="flex">
+                    <label className="font-normal">
                         <input
                             type="radio"
                             name="gender"
                             value="male"
                             checked={formData.gender === "male"}
                             onChange={handleInputChange}
-                        />{" "}
+                        />
                         Male
                     </label>
-                    <label>
+                    <label className="font-normal">
                         <input
                             type="radio"
                             name="gender"
                             value="female"
                             checked={formData.gender === "female"}
                             onChange={handleInputChange}
-                        />{" "}
+                        />
                         Female
                     </label>
-                    <label>
+                    <label className="font-normal">
                         <input
                             type="radio"
                             name="gender"
                             value="other"
                             checked={formData.gender === "other"}
                             onChange={handleInputChange}
-                        />{" "}
+                        />
                         Other
                     </label>
-                </label>
-                <br />
+                </div>
+
                 <label>
                     Profile Picture:
                     <input
@@ -141,7 +142,22 @@ export default function ChangeProfileInfo() {
                         onChange={handleProfilePicChange}
                     />
                 </label>
-                <br />
+
+                {/* image (profilePic) div below --- start*/}
+                <p className="font-semibold">Preview:</p>
+                <div className="overflow-hidden size-64 rounded-full">
+                    {formData.profilePic == null ||
+                    formData.profilePic == "" ? (
+                        ""
+                    ) : (
+                        <img
+                            className="w-full h-full object-cover"
+                            src={formData.profilePic}
+                        />
+                    )}
+                </div>
+                {/* image (profilePic) div below --- end*/}
+
                 <label>
                     Bio:
                     <textarea
@@ -150,38 +166,44 @@ export default function ChangeProfileInfo() {
                         onChange={handleInputChange}
                     />
                 </label>
-                <br />
-                <label>
+
+                <label className="">
                     Choose Username:
-                    <input
-                        type="text"
-                        name="username"
-                        value={formData.username}
-                        onChange={handleInputChange}
-                    />
+                    <div className="flex justify-center items-center space-x-2">
+                        <input
+                            type="text"
+                            name="username"
+                            value={formData.username}
+                            onChange={handleInputChange}
+                        />
+                        {formData.username === "" ||
+                        formData.username === null ? (
+                            ""
+                        ) : (
+                            <p
+                                className="bg-zinc-200 p-3 text-xs "
+                                onClick={checkAvailability}
+                            >
+                                {availability}
+                            </p>
+                        )}
+                    </div>
                 </label>
-                {formData.username === "" || formData.username === null ? (
-                    ""
-                ) : (
-                    <p onClick={checkAvailability}>{availability}</p>
-                )}
-                <br />
 
                 {loading ? (
-                    <button disabled>Loading...</button>
+                    <button
+                        className="my-submit-button block"
+                        type="submit"
+                        disabled
+                    >
+                        Loading...
+                    </button>
                 ) : (
-                    <button type="submit">Submit</button>
+                    <button className="my-submit-button block" type="submit">
+                        Submit
+                    </button>
                 )}
             </form>
-            <br />
-            {/* image (profilePic) div below */}
-            <div>
-                {formData.profilePic == null || formData.profilePic == "" ? (
-                    ""
-                ) : (
-                    <img src={formData.profilePic} />
-                )}
-            </div>
         </div>
     );
 }

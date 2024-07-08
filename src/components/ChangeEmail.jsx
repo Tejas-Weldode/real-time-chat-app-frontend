@@ -11,7 +11,7 @@ export default function ChangeEmail() {
     const [loading, setLoading] = useState(false);
 
     const { userData, setUserData } = useAuthContext();
-    
+
     const [formData, setFormData] = useState({
         email: userData.email || "",
     });
@@ -56,10 +56,19 @@ export default function ChangeEmail() {
         setLoading(false);
     };
 
+    useEffect(() => {
+        console.log(userData);
+    }, []);
+
     return (
         <div>
-            <h1>ChangeEmail</h1>
-            {userData.isEmailVerified ? "" : <h2>Please Verify you Email</h2>}
+            {userData.isEmailVerified ? (
+                ""
+            ) : (
+                <p className="bg-red-400 text-white text-xl p-4">
+                    Please Verify you Email !
+                </p>
+            )}
             <form onSubmit={handleSubmit}>
                 <label>
                     Email:
@@ -71,9 +80,13 @@ export default function ChangeEmail() {
                     />
                 </label>
                 {loading ? (
-                    <button disabled>Loading...</button>
+                    <button className="my-submit-button" disabled>
+                        Loading...
+                    </button>
                 ) : (
-                    <button type="submit">Submit</button>
+                    <button className="my-submit-button" type="submit">
+                        Submit
+                    </button>
                 )}
             </form>
         </div>

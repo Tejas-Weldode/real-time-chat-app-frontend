@@ -5,6 +5,7 @@ import PageNotFound from "./pages/PageNotFound.jsx";
 import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
+import Logout from "./utils/Logout.jsx";
 import Update from "./pages/Update.jsx";
 import VerifyEmail from "./pages/VerifyEmail.jsx";
 import ListOfChats from "./pages/ListOfChats.jsx";
@@ -22,42 +23,51 @@ function App() {
     return (
         <>
             <Navbar />
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route
-                    path="/login"
-                    element={userData ? <Home /> : <Login />}
-                />
-                <Route
-                    path="/signup"
-                    element={userData ? <Home /> : <Signup />}
-                />
-                <Route
-                    path="/update"
-                    element={userData ? <Update /> : <Home />}
-                />
-                <Route
-                    path="/verify"
-                    element={userData ? <VerifyEmail /> : <Home />}
-                />
-                <Route
-                    path="/chat"
-                    element={userData ? <ListOfChats /> : <Home />}
-                />
-                <Route
-                    path="/chat/:id"
-                    element={userData ? <Chat /> : <Home />}
-                />
-                <Route
-                    path="/chat/discover-people"
-                    element={userData ? <DiscoverPeople /> : <Home />}
-                />
-                                
-                
-                <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/set-new-password" element={<SetNewPassword />} />
-                <Route path="*" element={<PageNotFound />} />
-            </Routes>
+            <div className="container mx-auto px-4">
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route
+                        path="/login"
+                        element={userData ? <Home /> : <Login />}
+                    />
+                    <Route path="/logout" element={<Logout />} />
+
+                    <Route
+                        path="/signup"
+                        element={userData ? <Home /> : <Signup />}
+                    />
+                    <Route
+                        path="/update"
+                        element={userData ? <Update /> : <Home />}
+                    />
+                    <Route
+                        path="/verify"
+                        element={userData ? <VerifyEmail /> : <Home />}
+                    />
+                    <Route
+                        path="/chat"
+                        element={userData ? <ListOfChats /> : <Home />}
+                    />
+                    <Route
+                        path="/chat/:id"
+                        element={userData ? <Chat /> : <Home />}
+                    />
+                    <Route
+                        path="/chat/discover-people"
+                        element={userData ? <DiscoverPeople /> : <Home />}
+                    />
+
+                    <Route
+                        path="/forgot-password"
+                        element={<ForgotPassword />}
+                    />
+                    <Route
+                        path="/set-new-password"
+                        element={<SetNewPassword />}
+                    />
+                    <Route path="*" element={<PageNotFound />} />
+                </Routes>
+            </div>
         </>
     );
 }

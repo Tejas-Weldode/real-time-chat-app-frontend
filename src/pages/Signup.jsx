@@ -186,9 +186,9 @@ export default function Signup() {
                 </label>
                 <br />
                 {loading ? (
-                    <button disabled>Loading...</button>
+                    <button className="my-submit-button" disabled>Loading...</button>
                 ) : (
-                    <button type="submit">Submit</button>
+                    <button className="my-submit-button" type="submit">Submit</button>
                 )}
             </form>
             <br />

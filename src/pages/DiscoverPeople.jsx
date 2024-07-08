@@ -19,7 +19,6 @@ export default function DiscoverPeople() {
                     }
                 );
                 setPeople(response.data.people);
-                console.log(response.data.people);
                 setLoading(false);
             } catch (error) {
                 console.log(error);
@@ -40,8 +39,7 @@ export default function DiscoverPeople() {
         );
     return (
         <>
-            <h1>DiscoverPeople</h1>
-            <p>Find people here...</p>
+            <h1>Discover People</h1>
             <ul>
                 {people.map((i) => {
                     return (

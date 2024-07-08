@@ -57,7 +57,6 @@ export default function ChangePassword() {
 
     return (
         <div>
-            <h1>ChangePassword</h1>
             <form onSubmit={handleSubmit}>
                 <label>
                     Enter Your current Password:
@@ -81,9 +80,9 @@ export default function ChangePassword() {
                 <br />
 
                 {loading ? (
-                    <button disabled>Loading...</button>
+                    <button className="my-submit-button" disabled>Loading...</button>
                 ) : (
-                    <button type="submit">Submit</button>
+                    <button className="my-submit-button" type="submit">Submit</button>
                 )}
             </form>
         </div>

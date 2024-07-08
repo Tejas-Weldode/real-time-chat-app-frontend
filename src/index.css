@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+form {
+    @apply space-y-4 p-6 bg-zinc-100 rounded-lg;
+}
+
+label {
+    @apply block text-zinc-700 font-medium;
+}
+
+input,
+textarea {
+    @apply font-normal p-2 w-full border border-zinc-300 rounded;
+}
+
+.my-submit-button {
+    @apply bg-zinc-200 p-4 px-10 font-bold text-base rounded-lg;
+}
+
+h1 {
+    @apply text-5xl mb-4 mt-6;
+}
+
+.my-option-button {
+    @apply ml-0 m-4 p-2 px-8 border-b-4 border-b-zinc-200;
+}
+
+.my-option-button-active {
+    @apply ml-0 m-4 p-2 px-8 border-b-4 border-b-zinc-500;
+}
