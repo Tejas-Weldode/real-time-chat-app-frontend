@@ -8,8 +8,8 @@ export default function VerifyEmail() {
             <h1>VerifyEmail</h1>
             <p className="mt-10">
                 A verification link has been sent to your email address:{" "}
-                {userData.email}. If not found in the inbox, please check your
-                spam folder.
+                {userData.email ? userData.email : ""}. If not found in the
+                inbox, please check your spam folder.
             </p>
             <p className="my-2 text-2xl font-light">
                 Please <span className="font-semibold">Login again</span> after
