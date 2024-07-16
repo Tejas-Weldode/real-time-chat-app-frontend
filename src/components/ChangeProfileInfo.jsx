@@ -63,7 +63,7 @@ export default function ChangeProfileInfo() {
             }
             //
             const res = await axios.put(
-                "http://localhost:3000/user/update",
+                `${import.meta.env.VITE_API_SERVER}/user/update`,
                 formData,
                 { headers: { Authorization: `Bearer ${userData.token}` } }
             );
@@ -79,7 +79,7 @@ export default function ChangeProfileInfo() {
 
     const checkAvailability = async () => {
         const res = await axios.post(
-            "http://localhost:3000/user/check-username-availability",
+            `${import.meta.env.VITE_API_SERVER}/user/check-username-availability`,
             { username: formData.username }
         );
         if (formData.username === userData.username)

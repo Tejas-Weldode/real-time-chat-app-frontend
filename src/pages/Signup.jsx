@@ -64,7 +64,7 @@ export default function Signup() {
             }
             //
             const res = await axios.post(
-                "http://localhost:3000/user/signup",
+                `${import.meta.env.VITE_API_SERVER}/user/signup`,
                 formData
             );
             toast.success(res.data.message);
@@ -77,7 +77,7 @@ export default function Signup() {
 
     const checkAvailability = async () => {
         const res = await axios.post(
-            "http://localhost:3000/user/check-username-availability",
+            `${import.meta.env.VITE_API_SERVER}/user/check-username-availability`,
             { username: formData.username }
         );
         if (res.data.available) setAvailability("✅Available");
@@ -186,9 +186,13 @@ export default function Signup() {
                 </label>
                 <br />
                 {loading ? (
-                    <button className="my-submit-button" disabled>Loading...</button>
+                    <button className="my-submit-button" disabled>
+                        Loading...
+                    </button>
                 ) : (
-                    <button className="my-submit-button" type="submit">Submit</button>
+                    <button className="my-submit-button" type="submit">
+                        Submit
+                    </button>
                 )}
             </form>
             <br />

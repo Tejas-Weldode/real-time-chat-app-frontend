@@ -13,7 +13,7 @@ export default function DiscoverPeople() {
             try {
                 setLoading(true);
                 const response = await axios.get(
-                    "http://localhost:3000/chat/discover-people",
+                    `${import.meta.env.VITE_API_SERVER}/chat/discover-people`,
                     {
                         headers: { Authorization: `Bearer ${userData.token}` },
                     }

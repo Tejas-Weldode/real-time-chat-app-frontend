@@ -47,7 +47,7 @@ export default function Login() {
             }
             //
             const res = await axios.post(
-                "http://localhost:3000/user/login",
+                `${import.meta.env.VITE_API_SERVER}/user/login`,
                 formData
             );
             toast.success(res.data.message);
@@ -85,9 +85,13 @@ export default function Login() {
                 </label>
                 <br />
                 {loading ? (
-                    <button className="my-submit-button" disabled>Loading...</button>
+                    <button className="my-submit-button" disabled>
+                        Loading...
+                    </button>
                 ) : (
-                    <button className="my-submit-button" type="submit">Login</button>
+                    <button className="my-submit-button" type="submit">
+                        Login
+                    </button>
                 )}
             </form>
             <Link to="/forgot-password">Forgot password?</Link>

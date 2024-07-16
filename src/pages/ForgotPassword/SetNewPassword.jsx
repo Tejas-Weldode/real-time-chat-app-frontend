@@ -42,13 +42,13 @@ export default function SetNewPassword() {
             }
             //
             const res = await axios.put(
-                "http://localhost:3000/user/set-new-password",
+                `${import.meta.env.VITE_API_SERVER}/user/set-new-password`,
                 formData
             );
             toast.success(res.data.message);
             navigate("/login");
         } catch (error) {
-            console.log("the error ->",error)
+            console.log("the error ->", error);
             toast.error(error.response.data.error);
         }
         setLoading(false);

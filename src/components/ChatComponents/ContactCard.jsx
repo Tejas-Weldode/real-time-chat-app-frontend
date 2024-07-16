@@ -4,13 +4,19 @@ import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
 
-export default function ContactCard({ name, id, unread, saved, profilePic, username }) {
+export default function ContactCard({
+    name,
+    id,
+    unread,
+    saved,
+    profilePic,
+    username,
+}) {
     // id -> this id belongs to the user not the chat
-    
+
     const [isSaved, setIsSaved] = useState(saved);
     const [loading, setLoading] = useState(false);
     const { userData } = useAuthContext();
-    
 
     // Handle the change event
     const handleCheckboxChange = async (event) => {
@@ -19,7 +25,7 @@ export default function ContactCard({ name, id, unread, saved, profilePic, usern
 
         try {
             const response = await axios.put(
-                "http://localhost:3000/chat/save",
+                `${import.meta.env.VITE_API_SERVER}/chat/save`,
                 {
                     id: id,
                     save: newSaveStatus,
@@ -51,8 +57,7 @@ export default function ContactCard({ name, id, unread, saved, profilePic, usern
                 <div className="flex items-center space-x-4 bg-zinc-200 p-4">
                     {/* image (profilePic) div below --- start*/}
                     <span className="overflow-hidden size-12 rounded-full">
-                        {profilePic == null ||
-                        profilePic == "" ? (
+                        {profilePic == null || profilePic == "" ? (
                             ""
                         ) : (
                             <img

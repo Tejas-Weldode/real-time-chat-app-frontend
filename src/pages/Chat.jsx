@@ -33,7 +33,7 @@ export default function Chat() {
             try {
                 setLoading(true);
                 const response = await axios.get(
-                    `http://localhost:3000/message/get/${id}`,
+                    `${import.meta.env.VITE_API_SERVER}/message/get/${id}`,
                     {
                         headers: {
                             Authorization: `Bearer ${userData.token}`,
@@ -54,7 +54,7 @@ export default function Chat() {
             try {
                 setLoading(true);
                 const res = await axios.get(
-                    `http://localhost:3000/user/info/${id}`
+                    `${import.meta.env.VITE_API_SERVER}/user/info/${id}`
                 );
                 setOtherUser(res.data.user);
                 setLoading(false);
@@ -94,7 +94,7 @@ export default function Chat() {
         try {
             setSending(true);
             const response = await axios.post(
-                "http://localhost:3000/message/send",
+                `${import.meta.env.VITE_API_SERVER}/message/send`,
                 {
                     receiverId: id,
                     text: newMessage,

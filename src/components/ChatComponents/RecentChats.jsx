@@ -14,7 +14,7 @@ export default function RecentChats() {
             try {
                 setLoading(true);
                 const response = await axios.get(
-                    "http://localhost:3000/chat/recent",
+                    `${import.meta.env.VITE_API_SERVER}/chat/recent`,
                     {
                         headers: {
                             Authorization: `Bearer ${userData.token}`,

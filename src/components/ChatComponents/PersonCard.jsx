@@ -13,9 +13,12 @@ export default function PersonCard({ fullName, username, profilePic, _id }) {
     const openFunc = async () => {
         try {
             setLoading(true);
-            await axios.get(`http://localhost:3000/chat/open-chat/${_id}`, {
-                headers: { Authorization: `Bearer ${userData.token}` },
-            });
+            await axios.get(
+                `${import.meta.env.VITE_API_SERVER}/chat/open-chat/${_id}`,
+                {
+                    headers: { Authorization: `Bearer ${userData.token}` },
+                }
+            );
             navigate(`/chat/${_id}`);
             setLoading(false);
         } catch (error) {

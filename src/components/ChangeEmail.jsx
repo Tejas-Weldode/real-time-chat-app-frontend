@@ -42,7 +42,7 @@ export default function ChangeEmail() {
             }
             //
             const res = await axios.put(
-                "http://localhost:3000/user/update",
+                `${import.meta.env.VITE_API_SERVER}/user/update`,
                 formData,
                 { headers: { Authorization: `Bearer ${userData.token}` } }
             );

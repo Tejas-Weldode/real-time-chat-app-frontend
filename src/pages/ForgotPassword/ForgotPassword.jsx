@@ -35,7 +35,7 @@ export default function ForgotPassword() {
             }
             //
             const res = await axios.post(
-                "http://localhost:3000/user/forgot-password",
+                `${import.meta.env.VITE_API_SERVER}/user/forgot-password`,
                 { email }
             );
             toast.success(res.data.message);
