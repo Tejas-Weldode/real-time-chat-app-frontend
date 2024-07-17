@@ -16,6 +16,10 @@ export default function Chat() {
     const { socket } = useSocketContext();
     const messagesEndRef = useRef(null);
 
+    useEffect(() => {
+        console.log(otherUser);
+    }, []);
+
     function formatTimestamp(timestamp) {
         const date = new Date(timestamp);
         const options = {
