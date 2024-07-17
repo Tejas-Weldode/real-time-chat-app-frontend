@@ -17,6 +17,22 @@ export default function Chat() {
     const messagesEndRef = useRef(null);
 
     useEffect(() => {
+        console.log(otherUser);
+    }, []);
+
+    function formatTimestamp(timestamp) {
+        const date = new Date(timestamp);
+        const options = {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+        };
+        return `${date.toLocaleTimeString(undefined, options)}`;
+    }
+
+    useEffect(() => {
         const fetchMessages = async () => {
             try {
                 setLoading(true);
@@ -48,7 +64,7 @@ export default function Chat() {
                 setLoading(false);
             } catch (error) {
                 toast.error(
-                    error.response?.data?.error || "Error fetching user info"
+                    error.response?.data?.error || "Error fetching messages"
                 );
                 setLoading(false);
             }
@@ -110,22 +126,21 @@ export default function Chat() {
             <div className="flex items-center">
                 {/* image (profilePic) div below --- start*/}
                 <div className="overflow-hidden size-10 rounded-full">
-                    {otherUser?.profilePic ? (
+                    {otherUser?.profilePic == null ||
+                    otherUser?.profilePic == "" ? (
+                        ""
+                    ) : (
                         <img
                             className="w-full h-full object-cover"
-                            src={otherUser.profilePic}
+                            src={otherUser?.profilePic}
                         />
-                    ) : (
-                        ""
                     )}
                 </div>
                 {/* image (profilePic) div below --- end*/}
                 <p className="font-semibold text-2xl mx-2">
                     {otherUser?.fullName}
                 </p>
-                <p className="font-light italic mx-2">
-                    ({otherUser?.username})
-                </p>
+                <p className="font-light italic mx-2">({otherUser?.username})</p>
             </div>
             <div className="overflow-y-scroll max-h-[50vh]">
                 {messages.map((message, index) => (
@@ -145,14 +160,17 @@ export default function Chat() {
                             } `}
                         >
                             {/* image (profilePic) div below --- start*/}
-                            <img
-                                className="w-full h-full object-cover"
-                                src={
-                                    message.senderId === id
-                                        ? otherUser?.profilePic || ""
-                                        : userData.profilePic
-                                }
-                            />
+                            {
+                                <img
+                                    className="w-full h-full object-cover"
+                                    src={
+                                        message.senderId === id
+                                            ? otherUser?.profilePic
+                                            : userData.profilePic
+                                    }
+                                />
+                            }
+
                             {/* image (profilePic) div below --- end*/}
                         </div>
                         <div
