@@ -11,13 +11,13 @@ export default function Home() {
                 <div>
                     <h1>Hello {userData.fullName}</h1>
                     <Link
-                        className="mr-2 bg-slate-500 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded"
+                        className="my-2 mr-2 bg-slate-500 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded"
                         to="/chat"
                     >
                         Chat
                     </Link>
                     <Link
-                        className="mr-2 bg-slate-500 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded"
+                        className="my-2 mr-2 bg-slate-500 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded"
                         to="/chat/discover-people"
                     >
                         Discover People
@@ -28,13 +28,13 @@ export default function Home() {
                 <>
                     <h1>Welcome to the Chat App</h1>
                     <Link
-                        className="mr-2 bg-slate-500 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded"
+                        className="my-2 mr-2 bg-slate-500 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded"
                         to="/login"
                     >
                         Login
                     </Link>
                     <Link
-                        className="mr-2 bg-slate-500 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded"
+                        className="my-2 mr-2 bg-slate-500 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded"
                         to="/signup"
                     >
                         Signup
